@@ -1,0 +1,27 @@
+:root{color-scheme:dark;--bg:#120d0b;--fg:#e8dcc8;--ac:#8fd14f;--bd:#3a2c24;--pn:#1d1612;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:Georgia,serif}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+#wrap{position:relative;width:min(100%,900px)}
+canvas{width:100%;display:block;border:2px solid var(--bd);border-radius:8px;background:#000;cursor:crosshair}
+#ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,6,4,.88);border-radius:8px;text-align:center;padding:16px;overflow:auto}
+#ov .box{max-width:560px}
+h1{margin:0 0 8px;color:var(--ac);font-size:clamp(22px,4vw,34px)}
+p{line-height:1.45;margin:6px 0}
+button{background:var(--ac);color:#10200a;border:0;border-radius:6px;padding:10px 18px;font:bold 15px Georgia,serif;cursor:pointer;margin:4px}
+button:disabled{opacity:.35;cursor:not-allowed}
+.up{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--pn);border:1px solid var(--bd);border-radius:6px;padding:8px 12px;margin:6px 0;text-align:left}
+.up small{color:#b9a88e;display:block}
+#hint{font-size:13px;color:#b9a88e;text-align:center;padding:0 8px}
+#ov.t{background:radial-gradient(ellipse at center,rgba(8,5,4,.1),rgba(8,5,4,.72))}
+.skull{font-size:46px;filter:drop-shadow(0 0 14px #8fd14f)}
+.t h1{font-size:clamp(34px,7vw,64px);letter-spacing:.12em;text-shadow:0 0 22px rgba(143,209,79,.55)}
+.sub{color:#d9b36a;letter-spacing:.3em;text-transform:uppercase;font-size:13px;margin-bottom:12px}
+.modes{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:14px 0 6px}
+.mode{display:flex;flex-direction:column;gap:4px;min-width:200px;padding:14px 18px;background:rgba(29,22,18,.92);color:var(--fg);border:1px solid #5a7a2a}
+.mode:hover{background:#2b3a1e;border-color:var(--ac)}
+.mode b{color:var(--ac);font-size:18px}.mode small{font-weight:normal;color:#b9a88e}
+.ghost{background:transparent;color:var(--fg);border:1px solid var(--bd)}
+.ghost:hover{border-color:var(--ac)}
+#bar{display:none;gap:8px}#bar button{padding:6px 12px;font-size:13px}
+.leg{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;text-align:left;font-size:13px;margin:8px 0}
+.foot{margin-top:14px;font-size:12px;color:#8a7a66}
