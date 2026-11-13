@@ -4,8 +4,29 @@
 <title>Peste Negra: Pandemia</title>
 <link rel="stylesheet" href="css/style.css">
 </head><body>
-<div id="wrap"><canvas id="c" width="900" height="560"></canvas><div id="ov"></div></div>
+<div id="wrap"><canvas id="c" width="900" height="560"></canvas><div id="ov"></div>
+<div id="touch-controls" aria-label="Controles para toque">
+<div class="touch-pad" aria-label="Movimento">
+<button type="button" data-key="w" aria-label="Mover para cima">▲</button>
+<button type="button" data-key="a" aria-label="Mover para a esquerda">◀</button>
+<button type="button" data-key="s" aria-label="Mover para baixo">▼</button>
+<button type="button" data-key="d" aria-label="Mover para a direita">▶</button>
+</div>
+<div class="touch-actions" aria-label="Ações">
+<button type="button" data-action="shoot" aria-label="Atirar toxinas">☣</button>
+<button type="button" data-action="evo" aria-label="Evoluir">E</button>
+<button type="button" data-action="leave" aria-label="Sair do corpo">Q</button>
+<button type="button" data-action="strain-b" aria-label="Selecionar cepa bubônica">1</button>
+<button type="button" data-action="strain-p" aria-label="Selecionar cepa pneumônica">2</button>
+<button type="button" data-action="strain-s" aria-label="Selecionar cepa septicêmica">3</button>
+<button type="button" data-action="ability-z" aria-label="Usar habilidade Z">Z</button>
+<button type="button" data-action="ability-x" aria-label="Usar habilidade X">X</button>
+<button type="button" data-action="ability-c" aria-label="Usar habilidade C">C</button>
+<button type="button" data-action="ability-v" aria-label="Usar habilidade V">V</button>
+</div>
+</div>
+</div>
 <div id="bar"><button class="ghost" onclick="pauseGame()">⏸ Pausar (Esc)</button><button class="ghost" onclick="askQuit()">🚪 Sair do jogo</button></div>
-<div id="hint">WASD/setas: mover · Mouse/Espaço: atirar toxinas · E: evoluir · 1/2/3: cepa · Z/X/C/V: habilidades · Q: sair do corpo</div>
+<div id="hint"><span class="desktop-hint">WASD/setas: mover · Mouse/Espaço: atirar toxinas · E: evoluir · 1/2/3: cepa · Z/X/C/V: habilidades · Q: sair do corpo</span><span class="mobile-hint">Mova com o direcional · toque para mirar e use ☣ para atirar</span></div>
 <script src="js/game.js"></script>
 </body></html>

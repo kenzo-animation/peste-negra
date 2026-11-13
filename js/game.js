@@ -1,12 +1,40 @@
-const C=document.getElementById('c'),g=C.getContext('2d'),ov=document.getElementById('ov'),W=900,H=560;let GOAL=100;
+const C=document.getElementById('c'),g=C.getContext('2d'),ov=document.getElementById('ov'),touchControls=document.getElementById('touch-controls'),W=900,H=560;let GOAL=100;
 const R=(a,b)=>a+Math.random()*(b-a),D=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const keys={},mouse={x:W/2,y:H/2,down:false};
 let mode='title',S,B,M,prev='map',last=0;
 addEventListener('keydown',e=>{const k=e.key.toLowerCase();keys[k]=1;if(k==' '){e.preventDefault();miniPress()}if(k=='escape')pauseGame();if(k=='e')toggleEvo();if('123'.includes(k)&&k.length==1)setStrain('bps'[+k-1]);if('zxcv'.includes(k)&&k.length==1)useAb(k);if(k=='q'&&mode=='body')leave();if(k.startsWith('arrow'))e.preventDefault()});
 addEventListener('keyup',e=>keys[e.key.toLowerCase()]=0);
-C.addEventListener('mousemove',e=>{const r=C.getBoundingClientRect();mouse.x=(e.clientX-r.left)*W/r.width;mouse.y=(e.clientY-r.top)*H/r.height});
-C.addEventListener('mousedown',()=>{mouse.down=true;miniPress()});
-addEventListener('mouseup',()=>mouse.down=false);
+function aim(e){const r=C.getBoundingClientRect();mouse.x=(e.clientX-r.left)*W/r.width;mouse.y=(e.clientY-r.top)*H/r.height}
+C.addEventListener('pointermove',aim);
+C.addEventListener('pointerdown',e=>{aim(e);mouse.down=true;miniPress()});
+addEventListener('pointerup',()=>mouse.down=false);
+addEventListener('pointercancel',()=>mouse.down=false);
+addEventListener('blur',()=>{mouse.down=false;for(const k in keys)keys[k]=0});
+touchControls.querySelectorAll('[data-key]').forEach(button=>{
+ const key=button.dataset.key;
+ button.addEventListener('pointerdown',e=>{e.preventDefault();keys[key]=1;button.setPointerCapture(e.pointerId)});
+ const release=()=>keys[key]=0;
+ button.addEventListener('pointerup',release);
+ button.addEventListener('pointercancel',release);
+ button.addEventListener('lostpointercapture',release)
+});
+touchControls.querySelectorAll('[data-action]').forEach(button=>{
+ button.addEventListener('pointerdown',e=>{
+  e.preventDefault();
+  const action=button.dataset.action;
+  if(action=='shoot'){mouse.down=true;miniPress();button.setPointerCapture(e.pointerId)}
+  else if(action=='evo')toggleEvo();
+  else if(action=='leave'&&mode=='body')leave();
+  else if(action.startsWith('strain-'))setStrain(action.slice(7));
+  else if(action.startsWith('ability-'))useAb(action.slice(8))
+ });
+ if(button.dataset.action=='shoot'){
+  const release=()=>mouse.down=false;
+  button.addEventListener('pointerup',release);
+  button.addEventListener('pointercancel',release);
+  button.addEventListener('lostpointercapture',release)
+ }
+});
 const specks=Array.from({length:140},()=>({x:R(0,W),y:R(0,H),r:R(1,3)}));
 const UPS=[{k:'tox',n:'Toxina Letal',d:'+dano dos tiros e infecção mais rápida'},{k:'spd',n:'Flagelo Veloz',d:'+velocidade de movimento'},{k:'rate',n:'Cadência de Toxinas',d:'atira mais rápido'},{k:'hp',n:'Cápsula Resistente',d:'+25 de vida máxima e cura'},{k:'spr',n:'Pulgas Infectadas',d:'+raio de contágio (corpos e aura)'}];
 const stage=()=>S.kills<GOAL*.1?0:S.kills<GOAL*.3?1:2;
@@ -219,7 +247,7 @@ function howTo(){ov.className='t';ov.innerHTML=`<div class="box"><h1 style="font
 function pauseGame(){if(mode=='pause'){resume();return}if(!['map','body','mini'].includes(mode))return;pm=mode;mode='pause';ov.className='';ov.style.display='flex';ov.innerHTML=`<div class="box"><h1>Pausa</h1><button onclick="resume()">▶ Continuar</button><button class="ghost" onclick="start()">↻ Reiniciar partida</button><button class="ghost" onclick="askQuit()">🚪 Sair para o menu</button></div>`}
 function resume(){mode=pm;ov.style.display='none'}
 function askQuit(){if(mode=='title')return;if(mode=='over'){showTitle();return}if(mode!='pause'){pm=mode=='evo'?'map':mode;mode='pause'}ov.className='';ov.style.display='flex';ov.innerHTML=`<div class="box"><h1>Sair do jogo?</h1><p>Seu progresso nesta partida será perdido.</p><button onclick="showTitle()">Sim, sair</button><button class="ghost" onclick="resume()">Não, continuar</button></div>`}
-function loop(ts){const dt=Math.min(.05,(ts-last)/1000||0);last=ts;
+function loop(ts){const dt=Math.min(.05,(ts-last)/1000||0);last=ts;touchControls.classList.toggle('active',['map','body','mini'].includes(mode));
  if(mode=='title'||!S)drawTitle(dt);else{
   if(mode=='map')updMap(dt);else if(mode=='body')updBody(dt);else if(mode=='mini')M.a+=M.s*dt;
   const dm=mode=='pause'?pm:mode;
